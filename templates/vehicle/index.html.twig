@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vehicule de location{% endblock %}
+
+{% block body %}
+    <h1>Vehicule de location</h1>
+    <a href="{{ url("app_vehicle_update") }}">ajouter un vehicule</a>
+    <div>
+        <ul>
+            <div class="grid">
+            {% for vehicle in Vehicles %}
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ vehicle.imgPath }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ vehicle.model.brand.name }} : {{ vehicle.model.name }}</h5>
+                        <div class="card-text">Type : {{ vehicle.type.name}}</div>
+                        <div class="card-text">Capacité : {{ vehicle.capacity}}</div>
+                        <div class="card-text">prix : {{ vehicle.price *0.01 }}€/jour</div>
+                        <a href="{{ url("app_reservation",{"id": vehicle.id}) }}" class="btn btn-primary">réserver</a>
+                        {% if (is_granted("ROLE_ADMIN"))  %}
+                            <a href="{{ url("app_vehicle_update",{"id": vehicle.id}) }}">modifier le vehicule</a>
+                        {% endif %}
+                        <a href="{{ url("app_vehicle_delete",{"id": vehicle.id}) }}">Supprimer</a>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </ul>
+    </div>
+{% endblock %}
